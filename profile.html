@@ -5,20 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Öffentliches Profil</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #ffffffcc;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.06);
+      backdrop-filter: blur(6px);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ddd;
+    }
+    .profile-info h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .profile-info p {
+      margin: 4px 0;
+      color: #555;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .stat {
+      padding: 16px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+      text-align: center;
+    }
+    .stat-label {
+      font-weight: 600;
+      color: #444;
+    }
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+  </style>
 </head>
 <body>
   <nav>
-    <a href="/">Start</a>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/links">Meine Angebote</a>
-    <a href="/profile">Profil</a>
+    <!-- Deine bestehende Navigation hier -->
   </nav>
 
-  <main class="container">
-    <h1>Öffentliches Profil</h1>
-    <div class="card">
-      <p>Hier erscheint später dein echtes Beraterprofil (Avatar, QR, Bewertungen …).</p>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="platzhalter-avatar.jpg" alt="Avatar" class="profile-avatar">
+      <div class="profile-info">
+        <h1>Dein Name</h1>
+        <p>Kurze Beschreibung über dich</p>
+        <p>E-Mail: deine@email.de</p>
+        <p>Telefon: +49 123 456789</p>
+      </div>
     </div>
-  </main>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Kunden</div>
+        <div class="stat-value">000</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Letzter Deal</div>
+        <div class="stat-value">Produktname</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Offene Tickets</div>
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
