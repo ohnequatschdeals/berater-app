@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav>
+  <nav class="navbar">
     <a href="/">Start</a>
-    <a href="/dashboard">Dashboard</a>
+    <a href="/dashboard" class="active">Dashboard</a>
     <a href="/links">Meine Angebote</a>
     <a href="/profile">Profil</a>
   </nav>
@@ -18,10 +18,34 @@
     <h1>Mein Dashboard</h1>
 
     <section class="card">
-  <h2>API Antwort</h2>
-  <pre id="api">Lade…</pre>
-  <p id="api-error" class="error" style="display:none;"></p>
-</section>
+      <h2>API Antwort</h2>
+      <pre id="api">Lade…</pre>
+    </section>
+
+    <section id="stats" class="grid-4">
+      <div class="stat-card">
+        <div class="stat-icon">👩‍💼</div>
+        <div class="stat-label">Berater</div>
+        <div class="stat-value" id="beraterName">–</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">Kunden</div>
+        <div class="stat-value" id="kundenAnzahl">000</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-label">Letzter Deal</div>
+        <div class="stat-value" id="letzterDeal">Produktname</div>
+        <div class="stat-sub" id="letzterDealDatum"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✉️</div>
+        <div class="stat-label">Offene Tickets</div>
+        <div class="stat-value" id="offeneTickets">0</div>
+      </div>
+    </section>
+  </main>
 
   <script src="dashboard.js" defer></script>
 </body>
