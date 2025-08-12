@@ -1,44 +1,58 @@
-// dashboard.js
 (() => {
-  const $ = (sel) => document.querySelector(sel);
+  const pre = document.getElementById('api');
+  const card = pre?.closest('.card') || document.body;
+  const errBox = document.getElementById('api-error');
 
-  const fmtDate = (iso) => {
-    if (!iso) return '-';
-    try {
-      return new Date(iso).toLocaleDateString('de-DE', {
-        day: '2-digit', month: '2-digit', year: 'numeric'
-      });
-    } catch { return '-'; }
+  // Mini‑Loader
+  if (pre) pre.textContent = 'Lade…';
+  if (errBox) errBox.hidden = true;
+
+  const fmtTime = iso =>
+    new Date(iso).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
+
+  const buildUI = (data) => {
+    if (pre) pre.style.display = 'none';
+    if (errBox) { errBox.hidden = true; errBox.textContent = ''; }
+
+    const box = document.createElement('div');
+    box.className = 'api-ui';
+    box.innerHTML = `
+      <div class="stat">
+        <div class="stat-icon">👤</div>
+        <div class="stat-label">Berater</div>
+        <div class="stat-value">${data.beraterName}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">Kunden</div>
+        <div class="stat-value">${data.kundenAnzahl}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">✅</div>
+        <div class="stat-label">Letzter Deal</div>
+        <div class="stat-value">${data.letzterDeal?.produkt ?? '-'}</div>
+        <div class="stat-sub">${data.letzterDeal?.datum ?? ''}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">📨</div>
+        <div class="stat-label">Offene Tickets</div>
+        <div class="stat-value">${data.offeneTickets}</div>
+      </div>
+    `;
+    card.parentNode.insertBefore(box, card.nextSibling);
   };
 
-  const setText = (sel, value) => {
-    const el = $(sel);
-    if (el) el.textContent = value ?? '-';
-  };
-
-  const load = async () => {
-    const pre = $('#api');
-    try {
-      if (pre) pre.textContent = 'Lade…';
-
-      const res = await fetch('/api', { headers: { 'Accept': 'application/json' } });
+  fetch('/api', { headers: { Accept: 'application/json' } })
+    .then(res => {
       if (!res.ok) throw new Error('HTTP ' + res.status);
-
-      const data = await res.json();
-
-      // JSON hübsch in <pre> anzeigen
+      return res.json();
+    })
+    .then(data => {
       if (pre) pre.textContent = JSON.stringify(data, null, 2);
-
-      // Kacheln befüllen (per data-Attribut)
-      setText('[data-berater]', data.beraterName);
-      setText('[data-kunden]', data.kundenAnzahl);
-      setText('[data-deal]', data.letzterDeal?.produkt);
-      setText('[data-deal-date]', fmtDate(data.letzterDeal?.datum));
-      setText('[data-tickets]', data.offeneTickets);
-    } catch (e) {
-      if (pre) pre.textContent = 'Fehler beim Laden: ' + e.message;
-    }
-  };
-
-  load();
+      buildUI(data);
+    })
+    .catch(e => {
+      if (pre) pre.textContent = '';
+      if (errBox) { errBox.hidden = false; errBox.textContent = 'Fehler beim Laden: ' + e.message; }
+    });
 })();
