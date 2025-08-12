@@ -1,109 +1,80 @@
-/* ==== Basis ====
-   Diese Datei kannst du 1:1 als style.css speichern.
-*/
-:root{
-  --bg: #0d0f14;
-  --txt: #111;
-  --txt-muted:#555;
-  --card-bg: #ffffffcc;         /* halbtransparentes Weiß */
-  --ring: 0 8px 30px rgba(0,0,0,.10);
-  --radius: 14px;
-  --gradient: linear-gradient(90deg,#ff008a, #9b2fff, #00c3ff);
-  --brand: #7a5cff;
+.navbar {
+  background: linear-gradient(90deg, #ff00cc, #3333ff);
+  padding: 12px;
+  display: flex;
+  gap: 16px;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-  color:var(--txt);
-  background:
-    radial-gradient(1200px 600px at 10% -20%, #ff00851a, transparent 60%),
-    radial-gradient(900px 500px at 95% -10%, #00c3ff22, transparent 60%),
-    #f7f8fb;
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-/* ==== Navigation (oben, bunt) ==== */
-nav{
-  display:flex; gap:20px; padding:15px 20px;
-  background: var(--gradient);
-  font-weight:600;
-}
-nav a{
-  color:#fff; text-decoration:none; font-size:15px;
-  opacity:.95; transition:opacity .2s ease;
-}
-nav a:hover{opacity:1}
-
-/* ==== Layout-Container ==== */
-.container{
-  max-width: 1100px;
-  margin: 26px auto;
-  padding: 0 18px;
+.navbar a.active {
+  font-weight: 700;
+  text-decoration: underline;
 }
 
-/* ==== Überschriften ==== */
-h1{ margin: 6px 0 18px; font-size: 34px; line-height:1.2 }
-h2{ margin: 0 0 8px; font-size: 22px }
-
-/* ==== Karten / Kacheln (Allgemein) ==== */
-.card{
-  background: var(--card-bg);
-  backdrop-filter: blur(8px);
-  border-radius: var(--radius);
-  box-shadow: var(--ring);
-  padding: 18px;
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
 }
 
-/* ==== Profilkarte ==== */
-.profile-card{
-  display:grid;
-  grid-template-columns: 120px 1fr;
-  gap:20px;
-  align-items:center;
-  padding:22px;
-  margin-bottom:22px;
-}
-.avatar{
-  width:120px; height:120px; border-radius:50%;
-  object-fit:cover; display:block;
-  background: radial-gradient(80px 80px at 30% 30%, #ffffff, #e9e9ee);
-  border: 3px solid #fff; box-shadow: var(--ring);
-}
-.profile-info p{ margin:4px 0; color:var(--txt-muted) }
-.profile-info a{ color: var(--brand); text-decoration:none }
-.profile-info a:hover{ text-decoration:underline }
-
-/* ==== Stat-Gitter (Profil & Dashboard) ==== */
-.api-ui{
-  margin-top: 12px;
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap:16px;
-}
-.stat{
-  background:#fff;          /* hier volle Deckkraft, wirkt “Karte” */
-  border-radius: var(--radius);
-  box-shadow: var(--ring);
-  padding:18px;
-  min-height:96px;
-  display:flex; flex-direction:column; justify-content:center;
-}
-.stat-label{ font-weight:600; color:#444 }
-.stat-value{ font-size:22px; font-weight:800; margin-top:6px }
-.stat-sub{ font-size:12px; color:#666; margin-top:2px }
-
-/* ==== Dashboard: API-Box (JSON) ==== */
-pre#api{
-  background:#0f172a; color:#e2e8f0;
-  border-radius: 10px;
-  padding:14px; overflow:auto; font-size:13px;
+.profile-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* ==== Responsive Tweaks ==== */
-@media (max-width:640px){
-  .profile-card{ grid-template-columns: 80px 1fr; }
-  .avatar{ width:80px; height:80px }
-  h1{ font-size:28px }
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.profile-info h1 {
+  margin: 0;
+  font-size: 1.8em;
+}
+
+.profile-info p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.profile-info a {
+  color: #0077cc;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.stat {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.stat-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-top: 5px;
 }
