@@ -7,23 +7,32 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav>
+  <nav class="navbar">
     <a href="/">Start</a>
     <a href="/dashboard">Dashboard</a>
-    <a href="/links">Meine Angebote</a>
+    <a href="/links" class="active">Meine Angebote</a>
     <a href="/profile">Profil</a>
   </nav>
 
   <main class="container">
-    <h1>Quick Links</h1>
-    <div class="card">
-      <ul>
-        <li><a href="/">Start</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/profile">Profil</a></li>
-        <li><a href="/api" target="_blank">API Status (JSON)</a></li>
-      </ul>
-    </div>
+    <h1>Meine Angebote</h1>
+    <section class="grid-3">
+      <div class="card">
+        <h3>Vodafone Cable</h3>
+        <p>Highspeed Internet.</p>
+        <a class="btn btn-primary" href="#" target="_blank">Zum Angebot</a>
+      </div>
+      <div class="card">
+        <h3>Mobilfunk</h3>
+        <p>Starke Tarife.</p>
+        <a class="btn btn-primary" href="#" target="_blank">Zum Angebot</a>
+      </div>
+      <div class="card">
+        <h3>Strom &amp; Gas</h3>
+        <p>Einfach sparen.</p>
+        <a class="btn btn-primary" href="#" target="_blank">Zum Angebot</a>
+      </div>
+    </section>
   </main>
 </body>
 </html>
