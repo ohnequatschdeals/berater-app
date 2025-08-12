@@ -1,58 +1,49 @@
 (() => {
-  const pre = document.getElementById('api');
-  const card = pre?.closest('.card') || document.body;
-  const errBox = document.getElementById('api-error');
+  const $ = (id) => document.getElementById(id);
 
-  // Mini‑Loader
-  if (pre) pre.textContent = 'Lade…';
-  if (errBox) errBox.hidden = true;
+  const pre = $('api'); // Kasten mit Roh-JSON
 
-  const fmtTime = iso =>
-    new Date(iso).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
-
-  const buildUI = (data) => {
-    if (pre) pre.style.display = 'none';
-    if (errBox) { errBox.hidden = true; errBox.textContent = ''; }
-
-    const box = document.createElement('div');
-    box.className = 'api-ui';
-    box.innerHTML = `
-      <div class="stat">
-        <div class="stat-icon">👤</div>
-        <div class="stat-label">Berater</div>
-        <div class="stat-value">${data.beraterName}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-icon">👥</div>
-        <div class="stat-label">Kunden</div>
-        <div class="stat-value">${data.kundenAnzahl}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-icon">✅</div>
-        <div class="stat-label">Letzter Deal</div>
-        <div class="stat-value">${data.letzterDeal?.produkt ?? '-'}</div>
-        <div class="stat-sub">${data.letzterDeal?.datum ?? ''}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-icon">📨</div>
-        <div class="stat-label">Offene Tickets</div>
-        <div class="stat-value">${data.offeneTickets}</div>
-      </div>
-    `;
-    card.parentNode.insertBefore(box, card.nextSibling);
+  // Platzhalter (falls API mal nicht da ist)
+  const placeholder = {
+    ok: true,
+    env: 'development',
+    time: new Date().toISOString(),
+    beraterName: 'Dein Name',
+    kundenAnzahl: 0,
+    letzterDeal: { produkt: 'Produktname', datum: null, status: '—' },
+    offeneTickets: 0,
   };
 
-  fetch('/api', { headers: { Accept: 'application/json' } })
-    .then(res => {
+  const fillUI = (data) => {
+    $('beraterName').textContent = data.beraterName ?? placeholder.beraterName;
+    $('kundenAnzahl').textContent = (data.kundenAnzahl ?? placeholder.kundenAnzahl).toString().padStart(3, '0');
+
+    const deal = data.letzterDeal ?? placeholder.letzterDeal;
+    $('letzterDeal').textContent = deal?.produkt ?? placeholder.letzterDeal.produkt;
+    $('letzterDealDatum').textContent = deal?.datum
+      ? new Date(deal.datum).toLocaleDateString('de-DE')
+      : '';
+
+    $('offeneTickets').textContent = (data.offeneTickets ?? placeholder.offeneTickets).toString();
+  };
+
+  const showJson = (obj) => {
+    if (pre) pre.textContent = JSON.stringify(obj, null, 2);
+  };
+
+  const load = async () => {
+    try {
+      const res = await fetch('/api', { headers: { Accept: 'application/json' } });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
-    })
-    .then(data => {
-      if (pre) pre.textContent = JSON.stringify(data, null, 2);
-      buildUI(data);
-    })
-    .catch(e => {
-      if (pre) pre.textContent = '';
-      if (errBox) { errBox.hidden = false; errBox.textContent = 'Fehler beim Laden: ' + e.message; }
-    });
+      const data = await res.json();
+      showJson(data);
+      fillUI(data);
+    } catch (e) {
+      // Fallback: Platzhalter anzeigen
+      showJson({ error: e.message, using: 'placeholder', ...placeholder });
+      fillUI(placeholder);
+    }
+  };
+
+  load();
 })();
