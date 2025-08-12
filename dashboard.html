@@ -2,10 +2,9 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
   <nav>
@@ -15,12 +14,31 @@
     <a href="/profile">Profil</a>
   </nav>
 
-  <h1>Mein Dashboard</h1>
+  <main class="container">
+    <h1>Mein Dashboard</h1>
 
-  <div id="content">
-    <p>API Antwort wird geladen…</p>
-  </div>
+    <section class="card">
+      <h2>API Antwort</h2>
+      <pre id="api-box">Lade ...</pre>
+      <p id="api-error" class="error" style="display:none;"></p>
+    </section>
+  </main>
 
-  <script src="dashboard.js"></script>
+  <script>
+    (async () => {
+      const box = document.getElementById('api-box');
+      const err = document.getElementById('api-error');
+      try {
+        const res = await fetch('/api', { headers: { 'Accept': 'application/json' }});
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        box.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        box.style.display = 'none';
+        err.style.display = 'block';
+        err.textContent = 'Fehler beim Laden: ' + e.message;
+      }
+    })();
+  </script>
 </body>
 </html>
