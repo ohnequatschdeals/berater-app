@@ -1,46 +1,44 @@
+// dashboard.js
 (() => {
-  const pre = document.getElementById('api');
-  if (!pre) return;
-  pre.textContent = 'Skript geladen – hole API …';
+  const $ = (sel) => document.querySelector(sel);
 
-  fetch('/api', { headers: { 'Accept': 'application/json' } })
-    .then(res => {
+  const fmtDate = (iso) => {
+    if (!iso) return '-';
+    try {
+      return new Date(iso).toLocaleDateString('de-DE', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+    } catch { return '-'; }
+  };
+
+  const setText = (sel, value) => {
+    const el = $(sel);
+    if (el) el.textContent = value ?? '-';
+  };
+
+  const load = async () => {
+    const pre = $('#api');
+    try {
+      if (pre) pre.textContent = 'Lade…';
+
+      const res = await fetch('/api', { headers: { 'Accept': 'application/json' } });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
-    })
-    .then(data => {
-      // API-Antwort als JSON anzeigen
-      pre.textContent = JSON.stringify(data, null, 2);
 
-      // UI-Bereich erstellen
-      const box = document.createElement('div');
-      box.className = 'api-ui';
-      box.innerHTML = `
-        <div class="stat">
-          <div class="stat-icon">👤</div>
-          <div class="stat-label">Berater</div>
-          <div class="stat-value">${data.beraterName}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">👥</div>
-          <div class="stat-label">Kunden</div>
-          <div class="stat-value">${data.kundenAnzahl}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">✅</div>
-          <div class="stat-label">Letzter Deal</div>
-          <div class="stat-value">${data.letzterDeal.produkt}</div>
-          <div class="stat-sub">${new Date(data.letzterDeal.datum).toLocaleDateString('de-DE')}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">✉️</div>
-          <div class="stat-label">Offene Tickets</div>
-          <div class="stat-value">${data.offeneTickets}</div>
-        </div>
-      `;
-      pre.insertAdjacentElement('afterend', box);
-    })
-    .catch(e => {
-      pre.textContent = 'Fehler beim Laden: ' + e.message;
-    });
+      const data = await res.json();
+
+      // JSON hübsch in <pre> anzeigen
+      if (pre) pre.textContent = JSON.stringify(data, null, 2);
+
+      // Kacheln befüllen (per data-Attribut)
+      setText('[data-berater]', data.beraterName);
+      setText('[data-kunden]', data.kundenAnzahl);
+      setText('[data-deal]', data.letzterDeal?.produkt);
+      setText('[data-deal-date]', fmtDate(data.letzterDeal?.datum));
+      setText('[data-tickets]', data.offeneTickets);
+    } catch (e) {
+      if (pre) pre.textContent = 'Fehler beim Laden: ' + e.message;
+    }
+  };
+
+  load();
 })();
