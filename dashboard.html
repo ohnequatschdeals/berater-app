@@ -19,26 +19,10 @@
 
     <section class="card">
       <h2>API Antwort</h2>
-      <pre id="api-box">Lade ...</pre>
-      <p id="api-error" class="error" style="display:none;"></p>
+      <pre id="api">Lade…</pre>
     </section>
   </main>
 
-  <script>
-    (async () => {
-      const box = document.getElementById('api-box');
-      const err = document.getElementById('api-error');
-      try {
-        const res = await fetch('/api', { headers: { 'Accept': 'application/json' }});
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        box.textContent = JSON.stringify(data, null, 2);
-      } catch (e) {
-        box.style.display = 'none';
-        err.style.display = 'block';
-        err.textContent = 'Fehler beim Laden: ' + e.message;
-      }
-    })();
-  </script>
+  <script src="dashboard.js" defer></script>
 </body>
 </html>
