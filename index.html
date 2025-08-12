@@ -7,16 +7,37 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav>
-    <a href="/">Start</a>
+  <nav class="navbar">
+    <a href="/" class="active">Start</a>
     <a href="/dashboard">Dashboard</a>
     <a href="/links">Meine Angebote</a>
     <a href="/profile">Profil</a>
   </nav>
 
   <main class="container">
-    <h1>Willkommen</h1>
-    <p>Dies ist die Startseite.</p>
+    <header class="hero">
+      <h1>Digital. Persönlich. Ohne Quatsch.</h1>
+      <p>Faire Beratung für Internet, Mobilfunk, Strom, Gas &amp; Kredite – ohne versteckte Kosten.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/links">Angebote entdecken</a>
+        <a class="btn btn-ghost" href="/profile">Beraterprofil</a>
+      </div>
+    </header>
+
+    <section class="grid-3">
+      <div class="card">
+        <h3>100% transparent</h3>
+        <p>Klare Preise, klare Leistung.</p>
+      </div>
+      <div class="card">
+        <h3>5000+ zufriedene Kunden</h3>
+        <p>Erfahrung, die man merkt.</p>
+      </div>
+      <div class="card">
+        <h3>Bestpreis-Garantie</h3>
+        <p>Wir finden das beste Angebot.</p>
+      </div>
+    </section>
   </main>
 </body>
 </html>
